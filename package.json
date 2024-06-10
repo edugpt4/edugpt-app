@@ -1,0 +1,35 @@
+{
+  "name": "edugpt-app",
+  "version": "1.0.0",
+  "description": "EduGPT Web Application",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "build": "echo 'Build script placeholder'"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edugpt4/edugpt-app.git"
+  },
+  "keywords": [
+    "education",
+    "gpt",
+    "web",
+    "application"
+  ],
+  "author": "EduGPT Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/edugpt4/edugpt-app/issues"
+  },
+  "homepage": "https://github.com/edugpt4/edugpt-app#readme"
+}
