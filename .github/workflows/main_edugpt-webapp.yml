@@ -12,15 +12,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-
       - name: Set up Node.js 20
         uses: actions/setup-node@v3
         with:
           node-version: '20'
-
       - name: Install dependencies
         run: npm install
-
       - name: Build project
         run: npm run build
 
@@ -30,14 +27,17 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-
       - name: Set up Node.js 20
         uses: actions/setup-node@v3
         with:
           node-version: '20'
-
       - name: Install dependencies
         run: npm install
+      
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
