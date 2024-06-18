@@ -8,6 +8,7 @@
     "build": "echo 'Build script placeholder'"
   },
   "dependencies": {
+    "bootstrap": "^5.3.3",
     "express": "^4.17.1"
   },
   "devDependencies": {
