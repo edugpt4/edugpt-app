@@ -1,14 +1,40 @@
 const express = require('express');
+const app = express();
+const port = process.env.PORT || 3000;
+const path = require('path');
 const bodyParser = require('body-parser');
 const sql = require('mssql');
-const config = require('./config');
 
-const app = express();
+// Configurare baza de date
+const dbConfig = {
+    user: 'learn.promts',
+    password: 'Your_Password',
+    server: 'edusqlserv.database.windows.net',
+    database: 'UsersDB',
+    options: {
+        encrypt: true,
+        enableArithAbort: true
+    }
+};
+
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Servirea fișierelor statice
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Rutele aplicației
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+app.get('/register', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'register.html'));
+});
+
+// Ruta pentru procesarea formularului de înregistrare
 app.post('/register', async (req, res) => {
     try {
-        let pool = await sql.connect(config);
+        let pool = await sql.connect(dbConfig);
         let result = await pool.request()
             .input('ParentFirstName', sql.NVarChar, req.body.parentFirstName)
             .input('ParentLastName', sql.NVarChar, req.body.parentLastName)
@@ -26,21 +52,24 @@ app.post('/register', async (req, res) => {
             .input('ChildHobby', sql.NVarChar, req.body.childHobby)
             .input('ChildPassword', sql.NVarChar, req.body.childPassword)
             .query(`
-                INSERT INTO Users 
+                INSERT INTO dbo.Users 
                 (ParentFirstName, ParentLastName, ParentEmail, ParentPhone, ParentPassword, 
-                 ChildFirstName, ChildLastName, ChildEmail, ChildPhone, ChildAge, 
-                 ChildGender, ChildBestSubject, ChildWeakSubject, ChildHobby, ChildPassword) 
+                ChildFirstName, ChildLastName, ChildEmail, ChildPhone, ChildAge, 
+                ChildGender, ChildBestSubject, ChildWeakSubject, ChildHobby, ChildPassword) 
                 VALUES 
                 (@ParentFirstName, @ParentLastName, @ParentEmail, @ParentPhone, @ParentPassword, 
-                 @ChildFirstName, @ChildLastName, @ChildEmail, @ChildPhone, @ChildAge, 
-                 @ChildGender, @ChildBestSubject, @ChildWeakSubject, @ChildHobby, @ChildPassword)`);
-        res.redirect('/login.html');
+                @ChildFirstName, @ChildLastName, @ChildEmail, @ChildPhone, @ChildAge, 
+                @ChildGender, @ChildBestSubject, @ChildWeakSubject, @ChildHobby, @ChildPassword)
+            `);
+
+        res.send('Inregistrare reusita!'); // Poți personaliza acest mesaj
     } catch (err) {
-        console.error(err);
-        res.send("Error registering user");
+        console.error('Error while inserting data:', err);
+        res.status(500).send('A apărut o eroare la înregistrare.');
     }
 });
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+// Pornirea serverului
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
 });
