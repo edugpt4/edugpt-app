@@ -31,6 +31,10 @@ app.get('/register', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'register.html'));
 });
 
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+
 // Ruta pentru procesarea formularului de înregistrare
 app.post('/register', async (req, res) => {
     try {
@@ -62,7 +66,7 @@ app.post('/register', async (req, res) => {
                 @ChildGender, @ChildBestSubject, @ChildWeakSubject, @ChildHobby, @ChildPassword)
             `);
 
-        res.send('Inregistrare reusita!'); // Poți personaliza acest mesaj
+        res.send('Înregistrare reușită!'); // Poți personaliza acest mesaj
     } catch (err) {
         console.error('Error while inserting data:', err);
         res.status(500).send('A apărut o eroare la înregistrare.');
@@ -71,5 +75,5 @@ app.post('/register', async (req, res) => {
 
 // Pornirea serverului
 app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+    console.log(`Serverul rulează pe http://localhost:${port}`);
 });
