@@ -18,8 +18,6 @@ const dbConfig = {
 };
 
 app.use(bodyParser.urlencoded({ extended: true }));
-
-// Servirea fișierelor statice
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Rutele aplicației
@@ -73,7 +71,6 @@ app.post('/register', async (req, res) => {
     }
 });
 
-// Pornirea serverului
 app.listen(port, () => {
     console.log(`Serverul rulează pe http://localhost:${port}`);
 });
