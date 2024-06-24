@@ -8,7 +8,7 @@ const sql = require('mssql');
 // Configurare baza de date
 const dbConfig = {
     user: 'learn.promts',
-    password: 'Your_Password',
+    password: 'GPTAfeeders.1',
     server: 'edusqlserv.database.windows.net',
     database: 'UsersDB',
     options: {
