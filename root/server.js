@@ -1,11 +1,14 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const sql = require('mssql');
 const path = require('path');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.json());
+
+// Configurare baza de date
 const dbConfig = {
     user: 'learn.promts',
     password: 'GPTAfeeders.1',
@@ -17,150 +20,47 @@ const dbConfig = {
     }
 };
 
-sql.connect(dbConfig).then(pool => {
-    console.log('Conectat la baza de date SQL Server');
-    return pool;
-}).catch(err => {
-    console.error('Eroare la conectarea la baza de date:', err);
-});
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-app.get('/register', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'register.html'));
-});
-
-app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'login.html'));
-});
-
-app.post('/register', (req, res) => {
-    const {
-        parentFirstName, parentLastName, parentEmail, parentPhone, parentPassword,
-        childFirstName, childLastName, childEmail, childPhone, childAge, childGender,
-        childBestSubject, childWeakSubject, childHobby, childPassword
-    } = req.body;
-
-    const request = new sql.Request();
-    const query = `INSERT INTO dbo.Users (
-        ParentFirstName, ParentLastName, ParentEmail, ParentPhone, ParentPassword,
-        ChildFirstName, ChildLastName, ChildEmail, ChildPhone, ChildAge, ChildGender,
-        ChildBestSubject, ChildWeakSubject, ChildHobby, ChildPassword### Codul complet pentru server.js
-
-Iată codul complet pentru `server.js`, care include toate rutele necesare și configurările pentru a gestiona paginile `index.html`, `login.html` și `register.html`.
-
-```javascript
-const express = require('express');
-const bodyParser = require('body-parser');
-const sql = require('mssql');
-const path = require('path');
-
-const app = express();
-const port = process.env.PORT || 3000;
-
-const dbConfig = {
-    user: 'learn.promts',
-    password: 'GPTAfeeders.1',
-    server: 'edusqlserv.database.windows.net',
-    database: 'UsersDB',
-    options: {
-        encrypt: true,
-        enableArithAbort: true
+sql.connect(dbConfig, err => {
+    if (err) {
+        console.error('Eroare la conectarea la baza de date:', err);
+    } else {
+        console.log('Conectat la baza de date SQL Server');
     }
-};
-
-sql.connect(dbConfig).then(pool => {
-    console.log('Conectat la baza de date SQL Server');
-    return pool;
-}).catch(err => {
-    console.error('Eroare la conectarea la baza de date:', err);
-});
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-app.get('/register', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'register.html'));
-});
-
-app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
 app.post('/register', (req, res) => {
     const {
-        parentFirstName, parentLastName, parentEmail, parentPhone, parentPassword,
-        childFirstName, childLastName, childEmail, childPhone, childAge, childGender,
-        childBestSubject, childWeakSubject, childHobby, childPassword
-    } = req.body;
+        parentFirstName,
+        parentLastName,
+        parentEmail,
+        parentPhone,
+        parentPassword,
+        childFirstName,
+        childLastName,
+        childEmail,
+        childPhone,
+        childAge,
+        childGender,
+        childBestSubject,
+        childWeakSubject,
+        childHobby,
+        child### index.html
 
-    const request = new sql.Request();
-    const query = `INSERT INTO dbo.Users (
-        ParentFirstName, ParentLastName, ParentEmail, ParentPhone, ParentPassword,
-        ChildFirstName, ChildLastName, ChildEmail, ChildPhone, ChildAge, ChildGender,
-        ChildBestSubject, ChildWeakSubject, ChildHobby, ChildPassword
-    ) VALUES (
-        @parentFirstName, @parentLastName, @parentEmail, @parentPhone, @parentPassword,
-        @childFirstName, @childLastName, @childEmail, @childPhone, @childAge, @childGender,
-        @childBestSubject, @childWeakSubject, @childHobby, @childPassword
-    )`;
-
-    request.input('parentFirstName', sql.NVarChar, parentFirstName)
-        .input('parentLastName', sql.NVarChar, parentLastName)
-        .input('parentEmail', sql.NVarChar, parentEmail)
-        .input('parentPhone', sql.NVarChar, parentPhone)
-        .input('parentPassword', sql.NVarChar, parentPassword)
-        .input('childFirstName', sql.NVarChar, childFirstName)
-        .input('childLastName', sql.NVarChar, childLastName)
-        .input('childEmail', sql.NVarChar, childEmail)
-        .input('childPhone', sql.NVarChar, childPhone)
-        .input('childAge', sql.Int, childAge)
-        .input('childGender', sql.NVarChar, childGender)
-        .input('childBestSubject', sql.NVarChar, childBestSubject)
-        .input('childWeakSubject', sql.NVarChar, childWeakSubject)
-        .input('childHobby', sql.NVarChar, childHobby)
-        .input('childPassword', sql.NVarChar, childPassword)
-        .query(query)
-        .then(() => {
-            res.send('Înregistrare reușită');
-        })
-        .catch(err => {
-            console.error('Eroare la inserarea datelor în baza de date:', err);
-            res.send('Eroare la înregistrare');
-        });
-});
-
-app.post('/login', (req, res) => {
-    const { email, password } = req.body;
-
-    const request = new sql.Request();
-    const query = `SELECT * FROM dbo.Users WHERE ParentEmail = @Email AND ParentPassword = @Password`;
-
-    request.input('Email', sql.NVarChar, email)
-        .input('Password', sql.NVarChar, password)
-        .query(query)
-        .then(result => {
-            if (result.recordset.length > 0) {
-                res.send('Autentificare reușită');
-            } else {
-                res.send('Email sau parolă incorectă');
-            }
-        })
-        .catch(err => {
-            console.error('Eroare la autentificare:', err);
-            res.send('Eroare la autentificare');
-        });
-});
-
-app.listen(port, () => {
-    console.log(`Serverul rulează pe http://localhost:${port}`);
-});
+```html
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduGPT App</title>
+    <link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to EduGPT App!</h1>
+        <a href="/register.html" class="btn btn-primary">Register</a>
+        <a href="/login.html" class="btn btn-secondary">Login</a>
+    </div>
+    <script src="/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
