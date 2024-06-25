@@ -1,20 +1,18 @@
 const express = require('express');
 const sql = require('mssql');
+const path = require('path');
+
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Middleware pentru a parsa datele din formulare
-app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
-// Configurare server static pentru fișierele din folderul public
-app.use(express.static('public'));
-
-// Configurare conexiune la baza de date
+// Configurare baza de date
 const dbConfig = {
-    user: 'your_db_username',
-    password: 'your_db_password',
-    server: 'your_db_server.database.windows.net',
+    user: 'learn.promts',
+    password: 'GPTAfeeders.1',
+    server: 'edusqlserv.database.windows.net',
     database: 'UsersDB',
     options: {
         encrypt: true,
@@ -22,74 +20,90 @@ const dbConfig = {
     }
 };
 
-// Conectare la baza de date
 sql.connect(dbConfig, err => {
     if (err) {
-        console.error('Database connection failed: ', err);
+        console.error('Eroare la conectarea la baza de date:', err);
     } else {
-        console.log('Connected to the database');
+        console.log('Conectat la baza de date SQL Server');
     }
 });
 
-// Ruta pentru pagina principală
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/public/index.html');
-});
-
-// Ruta pentru pagina de înregistrare
-app.get('/register.html', (req, res) => {
-    res.sendFile(__dirname + '/public/register.html');
-});
-
-// Ruta pentru pagina de autentificare
-app.get('/login.html', (req, res) => {
-    res.sendFile(__dirname + '/public/login.html');
-});
-
-// Ruta pentru procesarea înregistrării
 app.post('/register', (req, res) => {
     const {
-        ParentFirstName, ParentLastName, ParentEmail, ParentPhone, ParentPassword,
-        ChildFirstName, ChildLastName, ChildEmail, ChildPhone, ChildAge, ChildGender,
-        ChildBestSubject, ChildWeakSubject, ChildHobby, ChildPassword
+        parentFirstName,
+        parentLastName,
+        parentEmail,
+        parentPhone,
+        parentPassword,
+        childFirstName,
+        childLastName,
+        childEmail,
+        childPhone,
+        childAge,
+        childGender,
+        childBestSubject,
+        childWeakSubject,
+        childHobby,
+        childPassword
     } = req.body;
 
-    const request = new sql.Request();
     const query = `
-        INSERT INTO dbo.Users (ParentFirstName, ParentLastName, ParentEmail, ParentPhone, ParentPassword, 
-            ChildFirstName, ChildLastName, ChildEmail, ChildPhone, ChildAge, ChildGender, 
-            ChildBestSubject, ChildWeakSubject, ChildHobby, ChildPassword) 
-        VALUES (@ParentFirstName, @ParentLastName, @ParentEmail, @ParentPhone, @ParentPassword, 
-            @ChildFirstName, @ChildLastName, @ChildEmail, @ChildPhone, @ChildAge, @ChildGender, 
-            @ChildBestSubject, @ChildWeakSubject, @ChildHobby, @ChildPassword)`;
+        INSERT INTO dbo.Users (ParentFirstName, ParentLastName, ParentEmail, ParentPhone, ParentPassword, ChildFirstName, ChildLastName, ChildEmail, ChildPhone, ChildAge, ChildGender, ChildBestSubject, ChildWeakSubject, ChildHobby, ChildPassword)
+        VALUES (@parentFirstName, @parentLastName, @parentEmail, @parentPhone, @parentPassword, @childFirstName, @childLastName, @childEmail, @childPhone, @childAge, @childGender, @childBestSubject, @childWeakSubject, @childHobby, @childPassword)
+    `;
 
-    request.input('ParentFirstName', sql.NVarChar, ParentFirstName);
-    request.input('ParentLastName', sql.NVarChar, ParentLastName);
-    request.input('ParentEmail', sql.NVarChar, ParentEmail);
-    request.input('ParentPhone', sql.NVarChar, ParentPhone);
-    request.input('ParentPassword', sql.NVarChar, ParentPassword);
-    request.input('ChildFirstName', sql.NVarChar, ChildFirstName);
-    request.input('ChildLastName', sql.NVarChar, ChildLastName);
-    request.input('ChildEmail', sql.NVarChar, ChildEmail);
-    request.input('ChildPhone', sql.NVarChar, ChildPhone);
-    request.input('ChildAge', sql.Int, ChildAge);
-    request.input('ChildGender', sql.NVarChar, ChildGender);
-    request.input('ChildBestSubject', sql.NVarChar, ChildBestSubject);
-    request.input('ChildWeakSubject', sql.NVarChar, ChildWeakSubject);
-    request.input('ChildHobby', sql.NVarChar, ChildHobby);
-    request.input('ChildPassword', sql.NVarChar, ChildPassword);
+    const request = new sql.Request();
+    request.input('parentFirstName', sql.NVarChar, parentFirstName);
+    request.input('parentLastName', sql.NVarChar, parentLastName);
+    request.input('parentEmail', sql.NVarChar, parentEmail);
+    request.input('parentPhone', sql.NVarChar, parentPhone);
+    request.input('parentPassword', sql.NVarChar, parentPassword);
+    request.input('childFirstName', sql.NVarChar, childFirstName);
+    request.input('childLastName', sql.NVarChar, childLastName);
+    request.input('childEmail', sql.NVarChar, childEmail);
+    request.input('childPhone', sql.NVarChar, childPhone);
+    request.input('childAge', sql.Int, childAge);
+    request.input('childGender', sql.NVarChar, childGender);
+    request.input('childBestSubject', sql.NVarChar, childBestSubject);
+    request.input('childWeakSubject', sql.NVarChar, childWeakSubject);
+    request.input('childHobby', sql.NVarChar, childHobby);
+    request.input('childPassword', sql.NVarChar, childPassword);
 
     request.query(query, (err, result) => {
         if (err) {
-            console.error('Error inserting data: ', err);
-            res.status(500).send('Error inserting data');
+            console.error('Eroare la inserarea datelor în baza de date:', err);
+            res.status(500).json({ success: false });
         } else {
-            res.send('Registration successful');
+            res.status(200).json({ success: true });
         }
     });
 });
 
-// Pornirea serverului
+app.post('/login', (req, res) => {
+    const { email, password } = req.body;
+
+    const query = `
+        SELECT * FROM dbo.Users WHERE ParentEmail = @Email AND ParentPassword = @Password
+    `;
+
+    const request = new sql.Request();
+    request.input('Email', sql.NVarChar, email);
+    request.input('Password', sql.NVarChar, password);
+
+    request.query(query, (err, result) => {
+        if (err) {
+            console.error('Eroare la autentificare:', err);
+            res.status(500).json({ success: false });
+        } else {
+            if (result.recordset.length > 0) {
+                res.status(200).json({ success: true });
+            } else {
+                res.status(401).json({ success: false });
+            }
+        }
+    });
+});
+
 app.listen(port, () => {
     console.log(`Serverul rulează pe http://localhost:${port}`);
 });
