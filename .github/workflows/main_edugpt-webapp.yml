@@ -14,10 +14,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up Node.js 20
-        uses: actions/setup-node@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
         with:
-          node-version: '20'
+          node-version: '14'
 
       - name: Install dependencies
         run: npm install
@@ -33,10 +33,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up Node.js 20
-        uses: actions/setup-node@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
         with:
-          node-version: '20'
+          node-version: '14'
 
       - name: Install dependencies
         run: npm install
@@ -51,4 +51,11 @@ jobs:
         with:
           app-name: 'edugpt-webapp'
           slot-name: 'production'
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B46A3DCA99B146249288A7EFD76F237A }}
+
+      - name: Set up SQL secrets
+        run: |
+          echo "SQL_SERVER=${{ secrets.SQL_SERVER }}" >> $GITHUB_ENV
+          echo "SQL_DATABASE=${{ secrets.SQL_DATABASE }}" >> $GITHUB_ENV
+          echo "SQL_USER=${{ secrets.SQL_USER }}" >> $GITHUB_ENV
+          echo "SQL_PASSWORD=${{ secrets.SQL_PASSWORD }}" >> $GITHUB_ENV

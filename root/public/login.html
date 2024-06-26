@@ -39,14 +39,15 @@
             .then(response => response.json())
             .then(result => {
                 if (result.success) {
-                    alert('Login successful!');
+                    alert('Login reușit!');
+                    window.location.href = '/';
                 } else {
-                    alert('Login failed');
+                    alert('Eroare la autentificare');
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
-                alert('Login failed');
+                console.error('Eroare:', error);
+                alert('Eroare la autentificare');
             });
         });
     </script>

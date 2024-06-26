@@ -1,14 +1,15 @@
 const sql = require('mssql');
 
 const config = {
-    user: 'learn.promts',
-    password: 'GPTAfeeders.1', // asigură-te că înlocuiești {your_password} cu parola ta
-    server: 'edusqlserv.database.windows.net',
-    database: 'UsersDB',
-    options: {
-        encrypt: true, // Utilizează SSL
-        enableArithAbort: true
-    }
+  user: process.env.SQL_USER,
+  password: process.env.SQL_PASSWORD,
+  server: process.env.SQL_SERVER,
+  database: process.env.SQL_DATABASE,
+  options: {
+    encrypt: true, // Utilizat pentru Azure SQL
+    enableArithAbort: true,
+  }
 };
 
 module.exports = config;
+
