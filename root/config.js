@@ -8,10 +8,11 @@ module.exports = {
         server: process.env.SQL_SERVER,
         database: process.env.SQL_DATABASE,
         options: {
-            encrypt: true,
-            enableArithAbort: true
+            encrypt: true, // Utilizat pentru Azure SQL
+            enableArithAbort: true,
         }
     }
 };
+
 
 
