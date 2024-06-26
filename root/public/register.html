@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Înregistrare / Registration</title>
+    <link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Înregistrare / Registration</h1>
+        <form action="/register" method="POST">
+            <div class="mb-3">
+                <label for="ParentFirstName" class="form-label">Nume Părinte / Parent First Name</label>
+                <input type="text" class="form-control" id="ParentFirstName" name="ParentFirstName" required>
+            </div>
+            <div class="mb-3">
+                <label for="ParentLastName" class="form-label">Prenume Părinte / Parent Last Name</label>
+                <input type="text" class="form-control" id="ParentLastName" name="ParentLastName" required>
+            </div>
+            <div class="mb-3">
+                <label for="ParentEmail" class="form-label">Email Părinte / Parent Email</label>
+                <input type="email" class="form-control" id="ParentEmail" name="ParentEmail" required>
+            </div>
+            <div class="mb-3">
+                <label for="ParentPhone" class="form-label">Telefon Părinte / Parent Phone</label>
+                <input type="text" class="form-control" id="ParentPhone" name="ParentPhone" required>
+            </div>
+            <div class="mb-3">
+                <label for="ParentPassword" class="form-label">Parolă Părinte / Parent Password</label>
+                <input type="password" class="form-control" id="ParentPassword" name="ParentPassword" required>
+            </div>
+            <div class="mb-3">
+                <label for="ChildFirstName" class="form-label">Nume Copil / Child First Name</label>
+                <input type="text" class="form-control" id="ChildFirstName" name="ChildFirstName" required>
+            </div>
+            <div class="mb-3">
+                <label for="ChildLastName" class="form-label">Prenume Copil / Child Last Name</label>
+                <input type="text" class="form-control" id="ChildLastName" name="ChildLastName" required>
+            </div>
+            <div class="mb-3">
+                <label for="ChildEmail" class="form-label">Email Copil / Child Email</label>
+                <input type="email" class="form-control" id="ChildEmail" name="ChildEmail" required>
+            </div>
+            <div class="mb-3">
+                <label for="ChildPhone" class="form-label">Telefon Copil / Child Phone</label>
+                <input type="text" class="form-control" id="ChildPhone" name="ChildPhone" required>
+            </div>
+            <div class="mb-3">
+                <label for="ChildAge" class="form-label">Vârstă Copil / Child Age</label>
+                <input type="number" class="form-control" id="ChildAge" name="ChildAge" required>
+            </div>
+            <div class="mb-3">
+                <label for="ChildGender" class="form-label">Sex Copil / Child Gender</label>
+                <input type="text" class="form-control" id="ChildGender" name="ChildGender" required>
+            </div>
+            <div class="mb-3">
+                <label for="ChildBestSubject" class="form-label">Disciplina la care excelează / Best Subject</label>
+                <input type="text" class="form-control" id="ChildBestSubject" name="ChildBestSubject" required>
+            </div>
+            <div class="mb-3">
+                <label for="ChildWeakSubject" class="form-label">Disciplina la care are dificultăți / Weak Subject</label>
+                <input type="text" class="form-control" id="ChildWeakSubject" name="ChildWeakSubject" required>
+            </div>
+            <div class="mb-3">
+                <label for="ChildHobby" class="form-label">Hobby Copil / Child Hobby</label>
+                <input type="text" class="form-control" id="ChildHobby" name="ChildHobby" required>
+            </div>
+            <div class="mb-3">
+                <label for="ChildPassword" class="form-label">Parolă Copil / Child Password</label>
+                <input type="password" class="form-control" id="ChildPassword" name="ChildPassword" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Înregistrare / Register</button>
+        </form>
+    </div>
+    <script src="/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+# .gitattributes
+* text=auto
+
+# Asigură-te că fișierele de tip text au sfârșituri de linie LF
+*.js text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.json text eol=lf
+
+# Asigură-te că fișierele binare sunt tratate ca atare și nu sunt modificate
+*.png binary
+*.jpg binary
+*.gif binary
+
+*.js text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+
