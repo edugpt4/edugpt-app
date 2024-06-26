@@ -1,13 +1,12 @@
-name: Build and deploy Node.js app to Azure Web App
+name: EduGPT WebApp CI/CD
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,45 +16,29 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: '14'
+          node-version: '20'
 
       - name: Install dependencies
         run: npm install
 
-      - name: Build project
-        run: npm run build
+      - name: Lint code
+        run: npm run lint
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: '14'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: 'Login via Azure CLI'
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Run tests
+        run: npm test
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'edugpt-webapp'
-          slot-name: 'production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B46A3DCA99B146249288A7EFD76F237A }}
+          package: .
+          slot-name: 'production'
 
-      - name: Set up SQL secrets
+      - name: Set environment variables
         run: |
-          echo "SQL_SERVER=${{ secrets.SQL_SERVER }}" >> $GITHUB_ENV
-          echo "SQL_DATABASE=${{ secrets.SQL_DATABASE }}" >> $GITHUB_ENV
-          echo "SQL_USER=${{ secrets.SQL_USER }}" >> $GITHUB_ENV
-          echo "SQL_PASSWORD=${{ secrets.SQL_PASSWORD }}" >> $GITHUB_ENV
+          echo SQL_SERVER=${{ secrets.SQL_SERVER }} >> $GITHUB_ENV
+          echo SQL_DATABASE=${{ secrets.SQL_DATABASE }} >> $GITHUB_ENV
+          echo SQL_USER=${{ secrets.SQL_USER }} >> $GITHUB_ENV
+          echo SQL_PASSWORD=${{ secrets.SQL_PASSWORD }} >> $GITHUB_ENV
+
