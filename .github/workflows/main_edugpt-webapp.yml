@@ -1,4 +1,4 @@
-name: build-and-deploy
+name: Build and Deploy EduGPT App
 
 on:
   push:
@@ -10,23 +10,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: 'Checkout GitHub Action'
+    - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: 'Set up Node.js'
+    - name: Setup Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '20.x'
+        node-version: '20'
 
-    - name: 'Azure Login'
+    - name: Login to Azure
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: 'Deploy to Azure WebApp'
+    - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
         app-name: 'edugpt-webapp'
         slot-name: 'production'
         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
-
