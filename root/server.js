@@ -14,7 +14,8 @@ const dbConfig = {
     database: process.env.SQL_DATABASE,
     options: {
         encrypt: true,
-        enableArithAbort: true
+        enableArithAbort: true,
+        trustServerCertificate: true // Adăugă această linie dacă serverul tău are un certificat de securitate
     }
 };
 
@@ -31,7 +32,7 @@ sql.connect(dbConfig).then(pool => {
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
