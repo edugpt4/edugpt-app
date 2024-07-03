@@ -50,19 +50,38 @@ app.get('/login.html', (req, res) => {
 
 // Rute pentru autentificare și înregistrare
 app.post('/register', async (req, res) => {
-    const { firstName, lastName, email, password, confirmPassword, phoneNumber } = req.body;
+    const {
+        ParentFirstName, ParentLastName, ParentEmail, ParentPhone, ParentPassword,
+        ChildFirstName, ChildLastName, ChildEmail, ChildPhone, ChildAge, ChildGender,
+        ChildBestSubject, ChildWeakSubject, ChildHobby, ChildPassword
+    } = req.body;
+
     // Validare și logică de înregistrare
     try {
         let pool = await sql.connect(dbConfig);
         await pool.request()
-            .input('firstName', sql.VarChar, firstName)
-            .input('lastName', sql.VarChar, lastName)
-            .input('email', sql.VarChar, email)
-            .input('password', sql.VarChar, password)
-            .input('phoneNumber', sql.VarChar, phoneNumber)
+            .input('ParentFirstName', sql.VarChar, ParentFirstName)
+            .input('ParentLastName', sql.VarChar, ParentLastName)
+            .input('ParentEmail', sql.VarChar, ParentEmail)
+            .input('ParentPhone', sql.VarChar, ParentPhone)
+            .input('ParentPassword', sql.VarChar, ParentPassword)
+            .input('ChildFirstName', sql.VarChar, ChildFirstName)
+            .input('ChildLastName', sql.VarChar, ChildLastName)
+            .input('ChildEmail', sql.VarChar, ChildEmail)
+            .input('ChildPhone', sql.VarChar, ChildPhone)
+            .input('ChildAge', sql.Int, ChildAge)
+            .input('ChildGender', sql.VarChar, ChildGender)
+            .input('ChildBestSubject', sql.VarChar, ChildBestSubject)
+            .input('ChildWeakSubject', sql.VarChar, ChildWeakSubject)
+            .input('ChildHobby', sql.VarChar, ChildHobby)
+            .input('ChildPassword', sql.VarChar, ChildPassword)
             .query(`
-                INSERT INTO Users (FirstName, LastName, Email, Password, PhoneNumber)
-                VALUES (@firstName, @lastName, @email, @password, @phoneNumber)
+                INSERT INTO Users (ParentFirstName, ParentLastName, ParentEmail, ParentPhone, ParentPassword,
+                    ChildFirstName, ChildLastName, ChildEmail, ChildPhone, ChildAge, ChildGender,
+                    ChildBestSubject, ChildWeakSubject, ChildHobby, ChildPassword)
+                VALUES (@ParentFirstName, @ParentLastName, @ParentEmail, @ParentPhone, @ParentPassword,
+                    @ChildFirstName, @ChildLastName, @ChildEmail, @ChildPhone, @ChildAge, @ChildGender,
+                    @ChildBestSubject, @ChildWeakSubject, @ChildHobby, @ChildPassword)
             `);
         res.send('Înregistrare reușită!');
     } catch (err) {
@@ -73,6 +92,7 @@ app.post('/register', async (req, res) => {
 
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
+
     // Validare și logică de autentificare
     try {
         let pool = await sql.connect(dbConfig);
