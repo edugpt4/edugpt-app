@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Înregistrare / Registration</title>
-    <link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 </head>
 <body>
     <div class="container">
         <h1>Înregistrare / Registration</h1>
-        <form action="/register" method="POST">
+        <form id="registerForm" action="/register" method="post">
             <div class="mb-3">
                 <label for="ParentFirstName" class="form-label">Nume Părinte / Parent First Name</label>
                 <input type="text" class="form-control" id="ParentFirstName" name="ParentFirstName" required>
@@ -73,6 +73,6 @@
             <button type="submit" class="btn btn-primary">Înregistrare / Register</button>
         </form>
     </div>
-    <script src="/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

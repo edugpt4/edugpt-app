@@ -1,6 +1,14 @@
 module.exports = {
-    SQL_USER: process.env.SQL_USER,
-    SQL_PASSWORD: process.env.SQL_PASSWORD,
-    SQL_SERVER: process.env.SQL_SERVER,
-    SQL_DATABASE: process.env.SQL_DATABASE,
+    dbConfig: {
+        user: process.env.SQL_USER,
+        password: process.env.SQL_PASSWORD,
+        server: process.env.SQL_SERVER,
+        database: process.env.SQL_DATABASE,
+        options: {
+            encrypt: true,
+            enableArithAbort: true,
+            trustServerCertificate: true // Dacă serverul tău folosește un certificat de securitate
+        }
+    }
 };
+
