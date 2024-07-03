@@ -2,9 +2,9 @@
 logs
 *.log
 npm-debug.log*
-yan-debug.log*
-yan-error.log*
-lena-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
 .pnpm-debug.log*
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
@@ -69,8 +69,8 @@ web_modules/
 # Output of 'npm pack'
 *.tgz
 
-# Yan Integrity file
-.yan-integrity
+# Yarn Integrity file
+.yarn-integrity
 
 # dotenv environment variable files
 .env
@@ -116,19 +116,15 @@ dist
 # DynamoDB Local files
 .dynamodb/
 
-# TenJS port file
-.ten-port
+# TernJS port file
+.tern-port
 
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
-# yan v2
-.yan/cache
-.yan/unplugged
-.yan/build-state.yml
-.yan/install-state.gz
+# yarn v2
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
 .pnp.*
-
-node_modules/
-.env
-.DS_Store

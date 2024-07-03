@@ -1,3 +1,4 @@
+const sql = require('mssql');
 require('dotenv').config();
 
 module.exports = {
@@ -8,12 +9,11 @@ module.exports = {
         server: process.env.SQL_SERVER,
         database: process.env.SQL_DATABASE,
         options: {
-            encrypt: true,
+            encrypt: true, // Pentru Azure SQL
             enableArithAbort: true
         }
     }
 };
-
 
 
 
