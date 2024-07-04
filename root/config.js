@@ -1,3 +1,4 @@
+// File: config.js
 module.exports = {
     dbConfig: {
         user: process.env.SQL_USER,
@@ -7,8 +8,9 @@ module.exports = {
         options: {
             encrypt: true,
             enableArithAbort: true,
-            trustServerCertificate: true // Dacă serverul tău folosește un certificat de securitate
+            trustServerCertificate: true
         }
     }
 };
+
 

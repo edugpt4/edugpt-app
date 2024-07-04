@@ -1,3 +1,4 @@
+// File: server.js
 const express = require('express');
 const sql = require('mssql');
 const path = require('path');
@@ -15,7 +16,7 @@ const dbConfig = {
     options: {
         encrypt: true,
         enableArithAbort: true,
-        trustServerCertificate: true // Dacă serverul tău folosește un certificat de securitate
+        trustServerCertificate: true
     }
 };
 
@@ -56,7 +57,6 @@ app.post('/register', async (req, res) => {
         ChildBestSubject, ChildWeakSubject, ChildHobby, ChildPassword
     } = req.body;
 
-    // Validare și logică de înregistrare
     try {
         let pool = await sql.connect(dbConfig);
         await pool.request()
@@ -93,7 +93,6 @@ app.post('/register', async (req, res) => {
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
-    // Validare și logică de autentificare
     try {
         let pool = await sql.connect(dbConfig);
         let result = await pool.request()
