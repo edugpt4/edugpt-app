@@ -31,18 +31,23 @@ sql.connect(dbConfig).then(pool => {
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static('public'));
 
+// Serve static files from the root/public directory
+app.use(express.static(path.join(__dirname, 'root', 'public')));
+
+// Route to serve the index.html file
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/root/public/index.html');
+    res.sendFile(path.join(__dirname, 'root', 'public', 'index.html'));
 });
 
+// Route to serve the register.html file
 app.get('/register', (req, res) => {
-    res.sendFile(__dirname + '/root/public/register.html');
+    res.sendFile(path.join(__dirname, 'root', 'public', 'register.html'));
 });
 
+// Route to serve the login.html file
 app.get('/login', (req, res) => {
-    res.sendFile(__dirname + '/root/public/login.html');
+    res.sendFile(path.join(__dirname, 'root', 'public', 'login.html'));
 });
 
 app.post('/register', async (req, res) => {
