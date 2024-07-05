@@ -34,15 +34,15 @@ app.use(express.json());
 app.use(express.static('public'));
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/public/index.html');
+    res.sendFile(__dirname + '/root/public/index.html');
 });
 
 app.get('/register', (req, res) => {
-    res.sendFile(__dirname + '/public/register.html');
+    res.sendFile(__dirname + '/root/public/register.html');
 });
 
 app.get('/login', (req, res) => {
-    res.sendFile(__dirname + '/public/login.html');
+    res.sendFile(__dirname + '/root/public/login.html');
 });
 
 app.post('/register', async (req, res) => {

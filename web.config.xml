@@ -11,7 +11,10 @@
           <match url="^server.js\/debug[\/]?" />
         </rule>
         <rule name="StaticContent">
-          <action type="Rewrite" url="public{REQUEST_URI}" />
+          <conditions>
+            <add input="{REQUEST_FILENAME}" matchType="IsFile" />
+          </conditions>
+          <action type="Rewrite" url="{REQUEST_URI}" />
         </rule>
         <rule name="DynamicContent">
           <conditions>
@@ -37,3 +40,4 @@
     <directoryBrowse enabled="false" />
   </system.webServer>
 </configuration>
+
