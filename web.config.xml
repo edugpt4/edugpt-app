@@ -28,7 +28,15 @@
         </hiddenSegments>
       </requestFiltering>
     </security>
+    <defaultDocument>
+      <files>
+        <clear />
+        <add value="index.html" />
+      </files>
+    </defaultDocument>
+    <directoryBrowse enabled="false" />
   </system.webServer>
 </configuration>
+
 
 
