@@ -10,7 +10,7 @@
           <match url="^server.js\/debug[\/]?" />
         </rule>
         <rule name="StaticContent">
-          <action type="Rewrite" url="public{REQUEST_URI}" />
+          <action type="Rewrite" url="root/public/{REQUEST_URI}" />
         </rule>
         <rule name="DynamicContent">
           <conditions>
@@ -30,10 +30,9 @@
     <defaultDocument>
       <files>
         <clear />
-        <add value="root/public/index.html" />
+        <add value="index.html" />
       </files>
     </defaultDocument>
     <directoryBrowse enabled="false" />
   </system.webServer>
 </configuration>
-
