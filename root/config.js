@@ -8,7 +8,7 @@ module.exports = {
         options: {
             encrypt: true,
             enableArithAbort: true,
-            trustServerCertificate: true
+            trustServerCertificate: process.env.SQL_SERVER_TRUST_CERT === 'true'
         }
     }
 };

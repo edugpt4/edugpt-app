@@ -1,13 +1,12 @@
-// File: server.js
 const express = require('express');
 const sql = require('mssql');
-const path = require('path');
-require('dotenv').config();
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Configurația bazei de date
 const dbConfig = {
     user: process.env.SQL_USER,
     password: process.env.SQL_PASSWORD,
@@ -15,104 +14,68 @@ const dbConfig = {
     database: process.env.SQL_DATABASE,
     options: {
         encrypt: true,
-        enableArithAbort: true,
-        trustServerCertificate: true
+        enableArithAbort: true
     }
 };
 
-// Conectare la baza de date
 sql.connect(dbConfig).then(pool => {
+    if (pool.connecting) {
+        console.log('Connecting to the database...');
+    }
     if (pool.connected) {
-        console.log('Conectat la baza de date.');
+        console.log('Connected to the database.');
     }
 }).catch(err => {
-    console.error('Eroare la conectarea la baza de date:', err);
+    console.error('Database connection error:', err);
 });
 
-// Middleware pentru a analiza corpul cererii
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static('public'));
 
-// Setare middleware pentru a servi fișiere statice
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Rute
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(__dirname + '/public/index.html');
 });
 
-app.get('/register.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'register.html'));
+app.get('/register', (req, res) => {
+    res.sendFile(__dirname + '/public/register.html');
 });
 
-app.get('/login.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+app.get('/login', (req, res) => {
+    res.sendFile(__dirname + '/public/login.html');
 });
 
-// Rute pentru autentificare și înregistrare
 app.post('/register', async (req, res) => {
-    const {
-        ParentFirstName, ParentLastName, ParentEmail, ParentPhone, ParentPassword,
-        ChildFirstName, ChildLastName, ChildEmail, ChildPhone, ChildAge, ChildGender,
-        ChildBestSubject, ChildWeakSubject, ChildHobby, ChildPassword
-    } = req.body;
-
     try {
-        let pool = await sql.connect(dbConfig);
-        await pool.request()
-            .input('ParentFirstName', sql.VarChar, ParentFirstName)
-            .input('ParentLastName', sql.VarChar, ParentLastName)
-            .input('ParentEmail', sql.VarChar, ParentEmail)
-            .input('ParentPhone', sql.VarChar, ParentPhone)
-            .input('ParentPassword', sql.VarChar, ParentPassword)
-            .input('ChildFirstName', sql.VarChar, ChildFirstName)
-            .input('ChildLastName', sql.VarChar, ChildLastName)
-            .input('ChildEmail', sql.VarChar, ChildEmail)
-            .input('ChildPhone', sql.VarChar, ChildPhone)
+        const pool = await sql.connect(dbConfig);
+        const { ParentFirstName, ParentLastName, ParentEmail, ParentPhone, ParentPassword, ChildFirstName, ChildLastName, ChildEmail, ChildPhone, ChildAge, ChildGender, ChildBestSubject, ChildWeakSubject, ChildHobby, ChildPassword } = req.body;
+        const result = await pool.request()
+            .input('ParentFirstName', sql.NVarChar, ParentFirstName)
+            .input('ParentLastName', sql.NVarChar, ParentLastName)
+            .input('ParentEmail', sql.NVarChar, ParentEmail)
+            .input('ParentPhone', sql.NVarChar, ParentPhone)
+            .input('ParentPassword', sql.NVarChar, ParentPassword)
+            .input('ChildFirstName', sql.NVarChar, ChildFirstName)
+            .input('ChildLastName', sql.NVarChar, ChildLastName)
+            .input('ChildEmail', sql.NVarChar, ChildEmail)
+            .input('ChildPhone', sql.NVarChar, ChildPhone)
             .input('ChildAge', sql.Int, ChildAge)
-            .input('ChildGender', sql.VarChar, ChildGender)
-            .input('ChildBestSubject', sql.VarChar, ChildBestSubject)
-            .input('ChildWeakSubject', sql.VarChar, ChildWeakSubject)
-            .input('ChildHobby', sql.VarChar, ChildHobby)
-            .input('ChildPassword', sql.VarChar, ChildPassword)
+            .input('ChildGender', sql.NVarChar, ChildGender)
+            .input('ChildBestSubject', sql.NVarChar, ChildBestSubject)
+            .input('ChildWeakSubject', sql.NVarChar, ChildWeakSubject)
+            .input('ChildHobby', sql.NVarChar, ChildHobby)
+            .input('ChildPassword', sql.NVarChar, ChildPassword)
             .query(`
-                INSERT INTO Users (ParentFirstName, ParentLastName, ParentEmail, ParentPhone, ParentPassword,
-                    ChildFirstName, ChildLastName, ChildEmail, ChildPhone, ChildAge, ChildGender,
-                    ChildBestSubject, ChildWeakSubject, ChildHobby, ChildPassword)
-                VALUES (@ParentFirstName, @ParentLastName, @ParentEmail, @ParentPhone, @ParentPassword,
-                    @ChildFirstName, @ChildLastName, @ChildEmail, @ChildPhone, @ChildAge, @ChildGender,
-                    @ChildBestSubject, @ChildWeakSubject, @ChildHobby, @ChildPassword)
+                INSERT INTO Users (ParentFirstName, ParentLastName, ParentEmail, ParentPhone, ParentPassword, ChildFirstName, ChildLastName, ChildEmail, ChildPhone, ChildAge, ChildGender, ChildBestSubject, ChildWeakSubject, ChildHobby, ChildPassword)
+                VALUES (@ParentFirstName, @ParentLastName, @ParentEmail, @ParentPhone, @ParentPassword, @ChildFirstName, @ChildLastName, @ChildEmail, @ChildPhone, @ChildAge, @ChildGender, @ChildBestSubject, @ChildWeakSubject, @ChildHobby, @ChildPassword)
             `);
-        res.send('Înregistrare reușită!');
+        res.send('Înregistrare realizată cu succes');
     } catch (err) {
-        console.error('Eroare la înregistrare:', err);
-        res.status(500).send('A apărut o eroare la înregistrare.');
+        console.error('Eroare la inserarea datelor în baza de date:', err);
+        res.status(500).send('Eroare la înregistrare');
     }
 });
 
-app.post('/login', async (req, res) => {
-    const { email, password } = req.body;
-
-    try {
-        let pool = await sql.connect(dbConfig);
-        let result = await pool.request()
-            .input('email', sql.VarChar, email)
-            .input('password', sql.VarChar, password)
-            .query(`
-                SELECT * FROM Users WHERE Email = @email AND Password = @password
-            `);
-        if (result.recordset.length > 0) {
-            res.send('Autentificare reușită!');
-        } else {
-            res.status(401).send('Email sau parolă incorecte.');
-        }
-    } catch (err) {
-        console.error('Eroare la autentificare:', err);
-        res.status(500).send('A apărut o eroare la autentificare.');
-    }
-});
-
-// Pornire server
 app.listen(port, () => {
     console.log(`Serverul rulează pe http://localhost:${port}`);
 });
