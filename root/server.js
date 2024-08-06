@@ -34,21 +34,21 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Serve static files from the root/public directory
-app.use(express.static(path.join(__dirname, 'root', 'public')));
+app.use(express.static(path.join(__dirname, 'edugpt-app')));
 
 // Route to serve the index.html file
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'root', 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Route to serve the register.html file
 app.get('/register', (req, res) => {
-    res.sendFile(path.join(__dirname, 'root', 'public', 'register.html'));
+    res.sendFile(path.join(__dirname, 'register.html'));
 });
 
 // Route to serve the login.html file
 app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, 'root', 'public', 'login.html'));
+    res.sendFile(path.join(__dirname, 'login.html'));
 });
 
 app.post('/register', async (req, res) => {
